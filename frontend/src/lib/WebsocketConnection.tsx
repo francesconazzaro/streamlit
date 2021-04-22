@@ -35,7 +35,7 @@ const LOG = "WebsocketConnection"
 /**
  * The path where we should ping (via HTTP) to see if the server is up.
  */
-const SERVER_PING_PATH = "healthz"
+const SERVER_PING_PATH = "health-check"
 
 /**
  * The path of the server's websocket endpoint.

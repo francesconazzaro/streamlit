@@ -423,7 +423,7 @@ class ServerUtilsTest(unittest.TestCase):
 
 
 class HealthHandlerTest(tornado.testing.AsyncHTTPTestCase):
-    """Tests the /healthz endpoint"""
+    """Tests the /health-check endpoint"""
 
     def setUp(self):
         super(HealthHandlerTest, self).setUp()
@@ -434,28 +434,28 @@ class HealthHandlerTest(tornado.testing.AsyncHTTPTestCase):
 
     def get_app(self):
         return tornado.web.Application(
-            [(r"/healthz", HealthHandler, dict(callback=self.is_healthy))]
+            [(r"/health-check", HealthHandler, dict(callback=self.is_healthy))]
         )
 
     def test_healthz(self):
-        response = self.fetch("/healthz")
+        response = self.fetch("/health-check")
         self.assertEqual(200, response.code)
         self.assertEqual(b"ok", response.body)
 
         self._is_healthy = False
-        response = self.fetch("/healthz")
+        response = self.fetch("/health-check")
         self.assertEqual(503, response.code)
 
     def test_healthz_without_csrf(self):
         config._set_option("server.enableXsrfProtection", False, "test")
-        response = self.fetch("/healthz")
+        response = self.fetch("/health-check")
         self.assertEqual(200, response.code)
         self.assertEqual(b"ok", response.body)
         self.assertNotIn("Set-Cookie", response.headers)
 
     def test_healthz_with_csrf(self):
         config._set_option("server.enableXsrfProtection", True, "test")
-        response = self.fetch("/healthz")
+        response = self.fetch("/health-check")
         self.assertEqual(200, response.code)
         self.assertEqual(b"ok", response.body)
         self.assertIn("Set-Cookie", response.headers)

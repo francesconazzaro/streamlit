@@ -31,8 +31,8 @@ import {
 describe("doHealthPing", () => {
   const MOCK_PING_DATA = {
     uri: [
-      "https://not.a.real.host:3000/healthz",
-      "https://not.a.real.host:3001/healthz",
+      "https://not.a.real.host:3000/health-check",
+      "https://not.a.real.host:3001/health-check",
     ],
     timeoutMs: 10,
     retryCallback: () => {},
@@ -168,8 +168,8 @@ describe("doHealthPing", () => {
     const MOCK_PING_DATA_LOCALHOST = {
       ...MOCK_PING_DATA,
       uri: [
-        "https://localhost:3000/healthz",
-        "https://localhost:3001/healthz",
+        "https://localhost:3000/health-check",
+        "https://localhost:3001/health-check",
       ],
     }
 
